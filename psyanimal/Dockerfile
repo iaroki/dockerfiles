@@ -1,7 +1,7 @@
-FROM debian:jessie
+FROM alpine
 MAINTAINER iaroki
-RUN adduser iaroki
-RUN apt-get update -y && apt-get install git python3 python3-pip -y && apt-get clean
+RUN adduser -D iaroki
+RUN apk --update --no-cache add git python3
 RUN cd /home/iaroki && git clone https://github.com/iaroki/psyanimal.git && cd psyanimal && pip3 install -r requirements.txt
 RUN chown -R iaroki:iaroki /home/iaroki/psyanimal
 USER iaroki
