@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER iaroki
 RUN apt-get update && apt-get install -y chromium chromium-l10n fonts-liberation fonts-roboto hicolor-icon-theme \
     libcanberra-gtk-module libexif-dev libgl1-mesa-dri libgl1-mesa-glx libpango1.0-0 \
