@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y wget xz-utils gconf2 gconf-service gvfs
 	&& rm -rf Popcorn-Time-0.3.10-Linux-64.tar.xz
 RUN groupadd -r iaroki && useradd -r -g iaroki -G audio,video iaroki \
     && chown -R iaroki:iaroki /home/iaroki
+COPY asoundrc /home/iaroki/.asoundrc
 USER iaroki
 WORKDIR /home/iaroki/PT
 ENTRYPOINT ["/home/iaroki/PT/Popcorn-Time"]
