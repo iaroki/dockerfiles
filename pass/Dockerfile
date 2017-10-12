@@ -1,6 +1,6 @@
 FROM fedora
 MAINTAINER iaroki
-RUN dnf install pass gpg findutils -y && dnf clean all
+RUN dnf install pass gnupg2 findutils -y && dnf clean all
 ENV HOME=/home/iaroki
 RUN useradd --create-home --home-dir $HOME iaroki \
     && chown -R iaroki:iaroki $HOME
