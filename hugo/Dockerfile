@@ -11,4 +11,4 @@ RUN apt update \
 WORKDIR /root/hugo
 ENV PATH=$PATH:/root/hugo
 EXPOSE 1313
-CMD ["/usr/bin/bash"]
+CMD ["/bin/bash"]
