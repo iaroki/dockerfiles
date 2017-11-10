@@ -6,8 +6,7 @@ RUN apt-get update && apt-get install -y wget xz-utils gconf2 gconf-service gvfs
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* && mkdir -p /home/iaroki/PT && cd /home/iaroki/PT \
 	&& wget https://get.popcorntime.sh/build/Popcorn-Time-0.3.10-Linux-64.tar.xz && tar xf Popcorn-Time-0.3.10-Linux-64.tar.xz \
 	&& rm -rf Popcorn-Time-0.3.10-Linux-64.tar.xz
-RUN groupadd -r iaroki && useradd -r -g iaroki -G audio,video iaroki \
-    && chown -R iaroki:iaroki /home/iaroki
+RUN useradd -m -u 1000 -G audio,video iaroki
 COPY asoundrc /home/iaroki/.asoundrc
 USER iaroki
 WORKDIR /home/iaroki/PT
