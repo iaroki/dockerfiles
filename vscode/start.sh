@@ -2,5 +2,4 @@
 set -e
 set -o pipefail
 
-su iaroki -c /usr/bin/editor
-sleep infinity
+su user -p -c /usr/share/code/code
