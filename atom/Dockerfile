@@ -30,7 +30,7 @@ RUN buildDeps=' \
 	&& dpkg -i /tmp/atom-amd64.deb \
 	&& rm -rf /tmp/*.deb \
 	&& apt-get purge -y --auto-remove $buildDeps
-RUN adduser iaroki
+RUN useradd -m -u 1000 -G video iaroki
 USER iaroki
 WORKDIR /home/iaroki
 ENTRYPOINT ["atom", "--foreground"]
