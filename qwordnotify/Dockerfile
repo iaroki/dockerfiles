@@ -1,6 +1,6 @@
 FROM debian:jessie
 MAINTAINER iaroki
-RUN adduser iaroki
+RUN useradd -m -u 1000 iaroki
 RUN apt-get update -y && apt-get install git pyqt4-dev-tools fonts-takao -y && apt-get clean
 RUN cd /home/iaroki && git clone https://github.com/iaroki/qwordnotify.git
 RUN chown -R iaroki:iaroki /home/iaroki/qwordnotify
