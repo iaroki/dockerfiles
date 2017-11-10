@@ -1,9 +1,7 @@
-FROM fedora 
+FROM debian:stretch 
 MAINTAINER iaroki
-RUN dnf install -y transmission-gtk
-RUN groupadd -r iaroki && useradd -r -g iaroki -G audio,video iaroki && \
-    mkdir -p /home/iaroki/Downloads && chown -R iaroki:iaroki /home/iaroki
+RUN apt-get update && apt-get install -y transmission-gtk && apt-get clean
+RUN useradd -m -u 1000 iaroki
 USER iaroki
-ENV DISPLAY :0
 WORKDIR /home/iaroki
 CMD ["transmission-gtk"]
