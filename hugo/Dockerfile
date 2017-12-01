@@ -1,8 +1,8 @@
 FROM debian
 MAINTAINER iaroki
 ENV VERSION=0.31.1
-RUN apt update && \
-    apt install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     git \
     wget \
     ca-certificates \
@@ -12,7 +12,7 @@ RUN apt update && \
     tar xf hugo_${VERSION}_Linux-64bit.tar.gz && \
     mv hugo /bin/hugo && \
     rm -rf /tmp/* && \
-    apt clean
+    apt-get clean
 ENV BLOGDIR=/home/iaroki/blog
 RUN useradd -u 1000 -m -s /bin/bash iaroki
 USER iaroki
