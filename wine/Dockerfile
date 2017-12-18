@@ -9,6 +9,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y winehq-stable
 RUN useradd -m -u 1000 -G audio,video iaroki
+COPY asoundrc /home/iaroki/.asoundrc
 USER iaroki
 WORKDIR /home/iaroki
 CMD ["bash"]
