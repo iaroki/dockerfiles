@@ -7,7 +7,7 @@ RUN dpkg --add-architecture i386 && \
     apt-key add Release.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
     apt-get update && \
-    apt-get install -y winehq-stable
+    apt-get install -y winehq-stable libgl1-mesa-dri libgl1-mesa-glx
 RUN useradd -m -u 1000 -G audio,video iaroki
 COPY asoundrc /home/iaroki/.asoundrc
 USER iaroki
