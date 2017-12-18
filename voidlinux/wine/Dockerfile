@@ -5,7 +5,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y wget software-properties-common && \
     wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     apt-key add Release.key && \
-    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ &&
+    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
     apt-get update && \
     apt-get install -y winehq-stable
 RUN useradd -m -u 1000 -G audio,video iaroki
