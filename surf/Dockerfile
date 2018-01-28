@@ -9,4 +9,4 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -u 1000 -G audio,video iaroki
 USER iaroki
 WORKDIR /home/iaroki
-ENTRYPOINT ["surf"]
+ENTRYPOINT ["surf", "-g", "-n"]
