@@ -10,6 +10,6 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y winehq-stable libgl1-mesa-dri:i386 libgl1-mesa-glx:i386
 RUN useradd -m -u 1000 -G audio,video iaroki
 COPY asoundrc /home/iaroki/.asoundrc
-#USER iaroki
+USER iaroki
 WORKDIR /home/iaroki
 CMD ["bash"]
