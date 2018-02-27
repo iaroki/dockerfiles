@@ -7,4 +7,4 @@ RUN apk --no-cache --no-progress add musl-dev gcc python python-dev py2-pip git 
 ENV HOME /root
 WORKDIR /root/zeronet
 EXPOSE 43110 15441
-CMD ["python", "/root/zeronet/zeronet.py", "--ui_ip 0.0.0.0"]
+CMD ["python", "/root/zeronet/zeronet.py", "--ui_ip", "0.0.0.0"]
