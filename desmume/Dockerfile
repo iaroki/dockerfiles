@@ -5,4 +5,4 @@ RUN apt-get update && \
 RUN useradd -u 1000 -m iaroki
 USER iaroki
 WORKDIR /home/iaroki
-CMD ["desmume"]
+CMD ["/usr/games/desmume"]
