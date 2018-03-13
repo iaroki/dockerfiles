@@ -12,6 +12,7 @@ RUN apt-get update && \
     libglib2.0-0 \
     libx11-6 \
     libgtk2.0 \
+    git && \
 	curl -sSL https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add - && \
 	echo "deb https://download.sublimetext.com/ apt/stable/" > \
 	/etc/apt/sources.list.d/sublime-text.list && \
