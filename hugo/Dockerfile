@@ -1,6 +1,6 @@
 FROM debian
 MAINTAINER iaroki
-ENV VERSION=0.31.1
+ENV VERSION=0.37.1
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git \
