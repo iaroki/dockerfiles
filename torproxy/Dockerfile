@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:latest
 MAINTAINER iaroki
 RUN apk --no-cache add tor
 EXPOSE 9050
