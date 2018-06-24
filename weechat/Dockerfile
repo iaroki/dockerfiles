@@ -13,4 +13,4 @@ RUN adduser -S iaroki \
 WORKDIR $HOME
 USER iaroki
 
-ENTRYPOINT [ "weechat" ]
+CMD [ "weechat" ]
