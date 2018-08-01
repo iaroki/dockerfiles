@@ -35,5 +35,6 @@ COPY --from=builder /server/templates /src/templates
 
 WORKDIR /src
 
+EXPOSE 8080
 ENTRYPOINT [ "reg" ]
-CMD [ "--help" ]
+CMD [ "server", "-f", "-r", "localhost:5000" ]
