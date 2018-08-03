@@ -1,22 +1,11 @@
-FROM debian
+FROM alpine:edge
 MAINTAINER iaroki
-ENV VERSION=0.37.1
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    git \
-    wget \
-    ca-certificates \
-    vim && \
-    cd /tmp && \
-    wget https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_${VERSION}_Linux-64bit.tar.gz && \
-    tar xf hugo_${VERSION}_Linux-64bit.tar.gz && \
-    mv hugo /bin/hugo && \
-    rm -rf /tmp/* && \
-    apt-get clean
-ENV BLOGDIR=/home/iaroki/blog
-RUN useradd -u 1000 -m -s /bin/bash iaroki
+RUN apk --update --no-cache add wget
+RUN wget https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_0.46_Linux-64bit.tar.gz \
+    && tar xvf hugo_0.46_Linux-64bit.tar.gz \
+    && mv hugo /bin/hugo \
+    && rm -rf README LICENSE hugo_0.46_Linux-64bit.tar.gz
+RUN adduser -u 1000 -D iaroki
+WORKDIR /home/iaroki
 USER iaroki
-RUN mkdir ${BLOGDIR}
-WORKDIR ${BLOGDIR}
-EXPOSE 1313
-CMD ["/bin/bash"]
+CMD ["hugo"]
