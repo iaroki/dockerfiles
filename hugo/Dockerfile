@@ -8,6 +8,6 @@ RUN wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${H
     && mv hugo /bin/hugo \
     && rm -rf README LICENSE ${HUGO_TARGZ}
 RUN adduser -u 1000 -D iaroki
-WORKDIR /home/iaroki
+WORKDIR /home/iaroki/blog
 USER iaroki
 CMD ["hugo"]
