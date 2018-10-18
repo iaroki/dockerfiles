@@ -1,0 +1,12 @@
+#!/bin/bash
+
+podman run --rm \
+           --name=chrome \
+           -m 512m \
+           -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+           -e DISPLAY=:0 \
+           --device /dev/snd \
+           --device /dev/dri \
+           --security-opt seccomp=/home/iaroki/chrome.json \
+           --ipc=host \
+           iaroki/chrome
