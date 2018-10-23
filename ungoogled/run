@@ -9,5 +9,6 @@ docker run --rm \
            --device /dev/snd \
            --device /dev/dri \
            --security-opt seccomp=chrome.json \
+           --group-add 63
            --ipc=host \
            iaroki/unchrome
