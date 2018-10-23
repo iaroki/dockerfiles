@@ -57,5 +57,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN useradd -m -u 1000 -G audio,video iaroki
 USER iaroki
+COPY asoundrc /home/iaroki/.asoundrc
 WORKDIR /home/iaroki
 ENTRYPOINT ["chromium"]
