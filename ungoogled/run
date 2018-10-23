@@ -1,0 +1,13 @@
+#!/bin/bash
+
+docker run --rm \
+           --name=unchrome \
+           -m 512m \
+           -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+           -v /home/iaroki/Downloads:/home/iaroki/Downloads \
+           -e DISPLAY=:0 \
+           --device /dev/snd \
+           --device /dev/dri \
+           --security-opt seccomp=chrome.json \
+           --ipc=host \
+           unchrome
