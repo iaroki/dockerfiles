@@ -1,0 +1,1 @@
+docker run -it --rm --name gns3 --privileged --device /dev/kvm --device /dev/dri -v IOS:/IOS -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 iaroki/gns3
