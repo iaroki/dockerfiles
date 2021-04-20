@@ -1,10 +1,8 @@
-FROM python:alpine
+FROM alpine:3.13.5
 
-ARG CLI_VERSION=1.16.116
+RUN apk -uv add --no-cache aws-cli
+RUN addgroup -S awsgroup && adduser -S awsuser -G awsgroup
 
-RUN apk -uv add --no-cache groff jq less && \
-    pip install --no-cache-dir awscli==$CLI_VERSION
-
-WORKDIR /aws
+USER awsuser
 
 CMD sh
