@@ -1,6 +1,5 @@
-FROM alpine:edge
-MAINTAINER iaroki
-ENV HUGO_VERSION=0.48
+FROM alpine:3.15.0
+ENV HUGO_VERSION=0.89.4
 ENV HUGO_TARGZ=hugo_${HUGO_VERSION}_Linux-64bit.tar.gz
 RUN apk --update --no-cache add wget
 RUN wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${HUGO_TARGZ} \
