@@ -22,6 +22,8 @@ RUN apt-get update && \
 USER $USERNAME
 WORKDIR /home/$USERNAME/
 
+ENV PATH=$PATH:/home/$USERNAME/.local/bin
+
 RUN pip install --no-cache-dir --upgrade pip \
     "awscli==${AWS_VERSION}" \
     "ansible==${ANSIBLE_VERSION}" \
