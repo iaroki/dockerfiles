@@ -11,7 +11,7 @@ RUN groupadd --gid 1000 $USERNAME && \
     useradd --uid 1000 --gid 1000 -m $USERNAME
 RUN apt-get update && \
     apt-get -y install ca-certificates rsync sshpass openssh-client curl
-RUN pip install --upgrade pip \
+RUN pip install --no-cache-dir --upgrade pip \
     "awscli==${AWS_VERSION}" \
     "ansible==${ANSIBLE_VERSION}" \
     "ansible-lint==${ANSIBLE_LINT_VERSION}" && \
