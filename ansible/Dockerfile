@@ -20,7 +20,8 @@ RUN pip install --upgrade pip && \
     curl --silent -L https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz -o helm.tar.gz && \
     tar xf helm.tar.gz && mv linux-amd64/helm /usr/local/bin/heml && \
     curl --silent -L https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -o /usr/local/bin/aws-iam-authenticator && \
-    chmod +x /usr/local/bin/aws-iam-authenticator
+    chmod +x /usr/local/bin/aws-iam-authenticator && \
+    rm -rf /var/lib/apt/lists/*
 
 USER $USERNAME
 WORKDIR /home/$USERNAME/
