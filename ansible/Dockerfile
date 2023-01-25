@@ -1,11 +1,11 @@
-FROM python:3.10.4-slim-bullseye
+FROM python:3.11.1-slim-bullseye
 
 ARG USERNAME="nonroot"
-ARG ANSIBLE_VERSION="5.6.0"
-ARG ANSIBLE_LINT_VERSION="6.0.2"
-ARG AWS_VERSION="1.22.97"
-ARG KUBE_VERSION="1.21.11"
-ARG HELM_VERSION="3.8.2"
+ARG ANSIBLE_VERSION="7.1.0"
+ARG ANSIBLE_LINT_VERSION="6.10.2"
+ARG AWS_VERSION="1.27.49"
+ARG KUBE_VERSION="1.26.0"
+ARG HELM_VERSION="3.10.3"
 
 RUN groupadd --gid 1000 $USERNAME && \
     useradd --uid 1000 --gid 1000 -m $USERNAME
@@ -27,6 +27,7 @@ ENV PATH=$PATH:/home/$USERNAME/.local/bin
 RUN pip install --no-cache-dir --upgrade pip \
     "awscli==${AWS_VERSION}" \
     "ansible==${ANSIBLE_VERSION}" \
-    "ansible-lint==${ANSIBLE_LINT_VERSION}"
+    "ansible-lint==${ANSIBLE_LINT_VERSION}" \
+    boto3 botocore
 
 CMD ["bash"]
