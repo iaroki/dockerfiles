@@ -3,29 +3,29 @@
 #       --cap-add NET_ADMIN \
 #       --device /dev/net/tun \
 #       -v /home/msytnyk/vpn:/vpn \
-#       -v /home/msytnyk/.ssh:/root/ssh:ro \
 #       ssh-vpn
 
-FROM alpine:3.18.0
+FROM debian:12.1-slim
 
-RUN apk --update add --no-cache \
+RUN apt-get update && \
+  apt-get install -y \
   curl \
   sed \
   openvpn \
   supervisor \
-  openssh
+  openssh-server
 
 RUN mkdir /var/run/sshd && \
     mkdir /log && \
     touch /log/supervisord.log
 
-RUN echo "root:root" | chpasswd && \
-    sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config && \
-    sed -i s/AllowTcpForwarding.*/AllowTcpForwarding\ yes/ /etc/ssh/sshd_config
-    # echo "PermitRootLogin yes" | tee -a /etc/ssh/sshd_config
+RUN useradd -m msytnyk && \
+    mkdir /home/msytnyk/.ssh && \
+    chown msytnyk:msytnyk /home/msytnyk/.ssh
 
 COPY supervisord.conf /etc/supervisord.conf
 COPY entrypoint_ssh.sh /usr/local/bin/entrypoint_ssh.sh
+COPY authorized_keys /home/msytnyk/.ssh/authorized_keys
 
 EXPOSE 22
 
