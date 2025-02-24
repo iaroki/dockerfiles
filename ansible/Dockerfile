@@ -1,9 +1,11 @@
 FROM python:3.11.4-slim-bookworm
 
 ARG USERNAME="nonroot"
-ARG ANSIBLE_VERSION="8.1.0"
-ARG ANSIBLE_LINT_VERSION="6.17.2"
-ARG AWS_VERSION="1.29.2"
+ARG ANSIBLE_VERSION="9.0.1"
+ARG ANSIBLE_LINT_VERSION="6.22.0"
+ARG AWS_VERSION="1.30.6"
+ARG BOTO3_VERSION="1.29.6"
+ARG BOTOCORE_VERSION="1.32.6"
 ARG KUBE_VERSION="1.27.3"
 ARG HELM_VERSION="3.12.0"
 
@@ -28,6 +30,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     "awscli==${AWS_VERSION}" \
     "ansible==${ANSIBLE_VERSION}" \
     "ansible-lint==${ANSIBLE_LINT_VERSION}" \
-    boto3 botocore
+    "boto3==${BOTO3_VERSION}" \
+    "botocore==${BOTOCORE_VERSION}"
 
 CMD ["bash"]
