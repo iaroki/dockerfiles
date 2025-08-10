@@ -1,4 +1,4 @@
-FROM quay.io/archlinux/archlinux:base-devel-20250224.0.313122
+FROM quay.io/archlinux/archlinux:base-devel-20250810.0.398652
 
 ENV BUILDER_USER=builder
 ENV BUILDER_HOME=/tmp/${BUILDER_USER}
@@ -21,3 +21,4 @@ RUN paru -Syu --noconfirm $(yq -r '.packages | join(" ")' /tmp/packages.yaml) &&
 
 # finish system
 USER root
+COPY sudoers /etc/
