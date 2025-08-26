@@ -51,3 +51,4 @@ packages:
   - "yaml-language-server"
   - "docker-ls"
   - "yazi"
+  - "emacs-wayland"
