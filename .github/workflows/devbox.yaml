@@ -9,6 +9,7 @@ on:
     paths:
       - "devbox/**"
       - ".github/workflows/devbox.yaml"
+  workflow_dispatch:
 
 permissions:
   contents: "read"
