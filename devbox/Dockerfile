@@ -1,4 +1,4 @@
-FROM quay.io/archlinux/archlinux:base-devel-20250810.0.398652
+FROM quay.io/archlinux/archlinux:base-devel-20250909.0.418521
 
 ENV BUILDER_USER=builder
 ENV BUILDER_HOME=/tmp/${BUILDER_USER}
