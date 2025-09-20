@@ -51,5 +51,8 @@ packages:
   - "yaml-language-server"
   - "docker-ls"
   - "yazi"
+  - "npm"
   - "emacs-wayland"
   - "ttf-aporetic"
+  - "ttf-fira-sans"
+  - "ttf-firacode-nerd"
