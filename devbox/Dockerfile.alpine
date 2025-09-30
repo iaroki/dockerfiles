@@ -1,0 +1,57 @@
+FROM alpine:20250108
+
+# Prepare base system
+RUN apk add --no-cache unzip curl git jq yq
+
+# Install packages
+COPY packages.alpine.yaml /tmp/packages.yaml
+RUN apk add --no-cache $(yq eval '.packages[]' /tmp/packages.yaml)
+
+# Set build arguments for versions
+ENV TERRAFORM_VERSION="1.13.3"
+ENV TERRAGRUNT_VERSION="0.88.1"
+ENV TERRAFORM_LS_VERSION="0.38.0"
+ENV TERRAFORM_DOCS_VERSION="0.20.0"
+ENV PACKER_VERSION="1.14.2"
+
+# Automatically detect architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+        ARCH="amd64"; \
+    elif [ "$ARCH" = "aarch64" ]; then \
+        ARCH="arm64"; \
+    else \
+        echo "Unsupported architecture: $ARCH"; \
+        exit 1; \
+    fi && \
+    apk add --no-cache curl git unzip && \
+    # Install Terraform
+    curl -LO "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    unzip "terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    mv terraform /usr/local/bin/ && \
+    rm "terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt" && \
+    # Install Terragrunt
+    curl -LO "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_${ARCH}" && \
+    chmod +x "terragrunt_linux_${ARCH}" && \
+    mv "terragrunt_linux_${ARCH}" /usr/local/bin/terragrunt && \
+    # Install Terraform Language Server
+    curl -LO "https://releases.hashicorp.com/terraform-ls/${TERRAFORM_LS_VERSION}/terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    unzip "terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    mv terraform-ls /usr/local/bin/ && \
+    rm "terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt" && \
+    # Install Terraform Docs
+    curl -LO "https://github.com/terraform-docs/terraform-docs/releases/download/v${TERRAFORM_DOCS_VERSION}/terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    tar xvf "terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    chmod +x "terraform-docs" && \
+    mv "terraform-docs" /usr/local/bin/terraform-docs && \
+    rm "terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    rm "LICENSE" && \
+    rm "README.md" && \
+    # Install Packer
+    curl -LO "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    unzip "packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    mv packer /usr/local/bin/ && \
+    rm "packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt"
