@@ -1,0 +1,95 @@
+FROM debian:sid-20250929
+
+# Prepare base system
+RUN apt-get update && \
+    apt-get install -y \
+            --no-install-recommends \
+            unzip curl git jq yq ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install packages
+COPY packages.debian.yaml /packages.yaml
+RUN apt-get update && \
+    apt-get install -y \
+            --no-install-recommends \
+            $(yq -r '.packages[]' /packages.yaml) && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set build arguments for versions
+ENV TERRAFORM_VERSION="1.13.3"
+ENV TERRAGRUNT_VERSION="0.88.1"
+ENV TERRAFORM_LS_VERSION="0.38.0"
+ENV TERRAFORM_DOCS_VERSION="0.20.0"
+ENV PACKER_VERSION="1.14.2"
+ENV K9S_VERSION="0.50.13"
+ENV HELM_VERSION="3.19.0"
+ENV SOPS_VERSION="3.11.0"
+
+# Automatically detect architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+        ARCH="amd64"; \
+    elif [ "$ARCH" = "aarch64" ]; then \
+        ARCH="arm64"; \
+    else \
+        echo "Unsupported architecture: $ARCH"; \
+        exit 1; \
+    fi && \
+    # Install Terraform
+    curl -LO "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    unzip "terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    mv terraform /usr/local/bin/ && \
+    rm "terraform_${TERRAFORM_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt" && \
+    # Install Terragrunt
+    curl -LO "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_${ARCH}" && \
+    chmod +x "terragrunt_linux_${ARCH}" && \
+    mv "terragrunt_linux_${ARCH}" /usr/local/bin/terragrunt && \
+    # Install Terraform Language Server
+    curl -LO "https://releases.hashicorp.com/terraform-ls/${TERRAFORM_LS_VERSION}/terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    unzip "terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    mv terraform-ls /usr/local/bin/ && \
+    rm "terraform-ls_${TERRAFORM_LS_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt" && \
+    # Install Terraform Docs
+    curl -LO "https://github.com/terraform-docs/terraform-docs/releases/download/v${TERRAFORM_DOCS_VERSION}/terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    tar xvf "terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    chmod +x "terraform-docs" && \
+    mv "terraform-docs" /usr/local/bin/terraform-docs && \
+    rm "terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-${ARCH}.tar.gz" && \
+    rm "LICENSE" && \
+    rm "README.md" && \
+    # Install Packer
+    curl -LO "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    unzip "packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    mv packer /usr/local/bin/ && \
+    rm "packer_${PACKER_VERSION}_linux_${ARCH}.zip" && \
+    rm "LICENSE.txt" && \
+    # Install K9S
+    curl -LO "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION}/k9s_Linux_${ARCH}.tar.gz" && \
+    tar xvf "k9s_Linux_${ARCH}.tar.gz" && \
+    mv k9s /usr/local/bin/ && \
+    rm "k9s_Linux_${ARCH}.tar.gz" && \
+    rm "LICENSE" && \
+    rm "README.md" && \
+    # Install Helm
+    curl -LO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" && \
+    tar xvf "helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" && \
+    mv linux-${ARCH}/helm /usr/local/bin/ && \
+    rm "helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" && \
+    rm -rf "linux-${ARCH}" && \
+    # Install SOPS
+    curl -LO "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.${ARCH}" && \
+    mv sops-v${SOPS_VERSION}.linux.${ARCH} /usr/local/bin/
+
+# Install fonts
+RUN git clone --depth 1 https://github.com/mozilla/Fira /tmp/fira && \
+    mv /tmp/fira/ttf/* /usr/local/share/fonts/ && \
+    curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip" -o /tmp/fira-nerd.zip && \
+    mkdir /tmp/fira-nerd && \
+    unzip /tmp/fira-nerd.zip -d /tmp/fira-nerd && \
+    mv /tmp/fira-nerd/*.ttf /usr/local/share/fonts/ && \
+    rm -rf /tmp/* && \
+    fc-cache -f -v
