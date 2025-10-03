@@ -86,10 +86,10 @@ RUN ARCH=$(uname -m) && \
 
 # Install fonts
 RUN git clone --depth 1 https://github.com/mozilla/Fira /tmp/fira && \
-    mv /tmp/fira/ttf/* /usr/local/share/fonts/ && \
+    mv /tmp/fira/ttf/* /usr/share/fonts/ && \
     curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip" -o /tmp/fira-nerd.zip && \
     mkdir /tmp/fira-nerd && \
     unzip /tmp/fira-nerd.zip -d /tmp/fira-nerd && \
-    mv /tmp/fira-nerd/*.ttf /usr/local/share/fonts/ && \
+    mv /tmp/fira-nerd/*.ttf /usr/share/fonts/ && \
     rm -rf /tmp/* && \
     fc-cache -f -v
